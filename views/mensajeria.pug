@@ -1,0 +1,32 @@
+extends layout
+
+block content
+    include navbar.pug
+       .content(style="margin-top: 50px;" class="container")
+        if(usuariologueado.id != publicaciones.id_usuario)
+            .content(style="margin: auto; text-align: center;" class="container")
+                h1 Si te gustó la publicacion de  #{publicaciones.usuario.username}  comunicate con el para comprarla!!!!
+            .content(style="margin: auto; text-align: center;" class="container")
+                form(action=`/mensajes/agregarMensajes/${publicaciones.id_publicacion}`, method="post")
+                    .row 
+                        .md-3 
+                            label(for="comentario", class="form-label", style="text-align: center; margin-top: 25px; margin-bottom: 25px;") Comentario
+                            br
+                            textarea(class="form-control", style="width: 400px; height: 200px; margin: auto;" name="texto", id="comentario", placeholder="Escribe tu Comnetario", rows="5")
+                        .md-3(style="margin-top: 25px;")                     
+                            input(type="submit", class="btn btn-info", value="Enviar")
+                            a(class="btn btn-warning" style="margin-left: 10px" href="/") Volver 
+        else 
+            
+            .content(style="margin: auto; text-align: center;" class="container")
+                h1 Respondele Al Interesado!!
+            .content(style="margin: auto; text-align: center;" class="container")
+                form(action=`/mensajes/responderMensajes/${mensaje.id_mensajes}`, method="post")
+                    .row 
+                        .md-3 
+                            label(for="comentario", class="form-label", style="text-align: center; margin-top: 25px; margin-bottom: 25px;") Comentario
+                            br
+                            textarea(class="form-control", style="width: 400px; height: 200px; margin: auto;" name="texto", id="comentario", placeholder="Escribe tu Comnetario", rows="5")
+                        .md-3(style="margin-top: 25px;")                     
+                            input(type="submit", class="btn btn-info", value="Enviar")
+                            a(class="btn btn-warning" style="margin-left: 10px" href="/") Volver 

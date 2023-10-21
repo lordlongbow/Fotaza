@@ -1,0 +1,29 @@
+extends ../layout
+block content
+  include ../navbar.pug
+    .content
+      img(src="/images/fotaza-logo.jpg", alt="Logo de Fotaza", style="width: 200px; display: block; margin: 0 auto;")
+    
+    .content
+      h1(style="text-align: center; margin-top: 25px;") Iniciar Sesión
+      
+    .row
+      .col-sm-4(style="width: 30em; margin: auto; padding: 15px; text-align: center;")
+        .formulario
+          form(action="/login/", method="post")
+            .mb-3
+              label.form-label(for="email") Email
+              input(type="email", name="email", id="email", class="form-control")
+            .mb-3
+              label.form-label(for="password") Contraseña
+              input(type="password", name="password", id="password", class="form-control")
+            .mb-3
+              button(type="submit", class="btn btn-primary", style="margin_rigth: 5px") Ingresar
+              a(href="/login/registro", class="btn btn-danger") Registro 
+            
+            #error
+              if error
+                p= error
+            if exito 
+              p=exito
+                        

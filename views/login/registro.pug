@@ -1,0 +1,27 @@
+extends ../layout 
+block content 
+    .content 
+        h1(style="text-align: center; margin-top: 25px;") Registro
+    .row 
+        .col-sm-4(style="width: 30er; margin: auto; padding: 15px; text: center;")
+            .formulario
+                form(action="/login/resgitro", method="post")
+                    .mb-3 
+                        label.form-label(for="username") Username 
+                        input(type="text", name="username", id="username", class="form-control", required)
+                    .mb-3 
+                        label.form-label(for="email") Email 
+                        input(type="email", name="email", id="email", class="form-control", required)
+                        .form-text(id="emailHelp") Escribe tu email
+                    .mb-3
+                        label.form-label(for="password") Password 
+                        input(type="password", name="password", id="password", class="form-control", required)
+                    .mb-3
+                        button(type="submit", class="btn btn-primary") Registrarse 
+                        a(href="/login", class="btn btn-danger") Volver
+                    #error 
+                    if error 
+                        p=error
+                    if exito 
+                        p=exito
+                        

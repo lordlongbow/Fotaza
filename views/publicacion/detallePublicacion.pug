@@ -1,0 +1,32 @@
+extends ../layout
+block content 
+    include ../navbar.pug
+
+            .content
+                .row
+                    .col-md-10(style="margin:auto; text-align: center; margin-top: 25px;")
+                        h1 Detalles de Publicacion
+                        if(usuariologueado.id == publicacionObtenida.usuario.id) 
+                            a(class="btn btn-info" href=`/publicacion/editarPublicacion/${publicacionObtenida.id_publicacion}`) Editar Publicacion
+                        else 
+                            a(class="btn btn-info" href=`/publicacion/mensajeria/${publicacionObtenida.id_publicacion}`) Comunicarse con el usuario
+                        .row 
+                            .col-md-5(style="margin:auto; text-align: center;")
+                                img(src=`${publicacionObtenida.imagen}`, style = "width: 500px; height: 400px") 
+                            .col-md-3(style="margin:auto; text-align: center;")
+                                div 
+                                    h2 Caracteristicas
+                                div
+                                    p Dueño:  #{publicacionObtenida.usuario.username}
+                                    p Publicacion: #{publicacionObtenida.titulo}
+                                    p Tamaño: #{publicacionObtenida.resolucion}
+                                    p Formato:  #{publicacionObtenida.formato}
+                                    p Fecha de Creacion:  #{publicacionObtenida.fecha_creacion}
+                                    p Categoria: #{publicacionObtenida.categoria.descripcion}
+                                    p Derechos:  #{publicacionObtenida.derechos.descripcion}
+                                    if(publicacionObtenida.estado == 0)
+                                        p Estado: Publico
+                                    else 
+                                        p Estado: Privado
+                        
+            

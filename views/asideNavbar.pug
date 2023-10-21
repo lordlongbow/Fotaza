@@ -1,0 +1,37 @@
+extends layout
+
+block content
+  if usuariologueado
+    aside(class="sidebar")
+      div
+        ul.nav.flex-column
+          li.nav-item
+            a.nav-link(href='/')
+                i(class="fas fa-home")
+                span.texto Inicio
+          li.nav-item
+            a.nav-link(onclick="nuevo()")
+                i(class="fas fa-plus")
+                span.texto Nuevo
+          li.nav-item
+            a.nav-link(href='#') 
+                i(class="fas fa-envelope")
+                span.texto Contacto
+          li.nav-item
+            a.nav-link(href='/users/miPerfil/')
+                i(class="fas fa-user")
+                span.texto Mi Perfil
+          li.nav-item
+            a.nav-link(href='/login/logout')
+                i(class="fas fa-sign-out-alt")
+                span.texto Cerra Sesion
+  else
+    aside(class="sidebar", onclick="menuLateral()")
+      div
+        ul.nav.flex-column
+          li.nav-item
+            a.nav-link(href='/login/') 
+              i(class="fas fa-home")
+              span.texto Iniciar Sesión
+
+                

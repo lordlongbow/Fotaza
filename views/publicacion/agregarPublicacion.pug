@@ -1,0 +1,45 @@
+extends ../layout
+block content
+        include ../navbar.pug
+        head   
+            link(rel="stylesheet" href="../../public/stylesheet/styles.css")
+
+            .content 
+                h1(style="text-align: center; margin-top: 25px;") Agregar Publicacion
+
+            .row 
+                .col-sm-4(style="width: 30er; margin: auto; padding: 15px; text: center;")
+                    .formulario
+                        form(action="/publicacion/agregar" method="post" enctype="multipart/form-data")
+                            .mb-3 
+                                label.form-label(for="titulo") Titulo 
+                                input(type="text" name="titulo" id="titulo" class="form-control", required)
+                            .mb-3 
+                                label.form-label(for="categoria") Categoria  
+                                select(name="categoria" id="categoria" class="form-control", required) 
+                                    each categoria in categorias
+                                        option(value=`${categoria.id_categoria}`) #{categoria.descripcion}
+                            .mb-3
+                                label.form-label(for="derechos") Derechos
+                                select(name="derechos" id="derechos" class="form-control", required)
+                                    each derecho in derechos
+                                        option(value=`${derecho.id_derechos}`) #{derecho.descripcion}
+                            .mb-3
+                                label.form-label(for="estado") Estado
+                                if(derechos.id_derechos != 4)
+                                    .form-check    
+                                        input(type="radio" name="estado" id="publico" class="form-check-input" value="0" required, disebled)
+                                        label.form-check-label(for="publico") Público
+                                    .form-check
+                                        input(type="radio" name="estado" id="privado" class="form-check-input" value="1" required)
+                                        label.form-check-label(for="privado") Privado
+
+                            .mb-3 
+                                label.form-label(for="foto") Foto  
+                                input(type="file" name="foto" id="foto" class="form-control", required)
+                            .mb-3
+                                button(type="submit" class="btn btn-primary") Publicar 
+                                a(href="/index" class="btn btn-danger") Volver
+                            #error 
+                            if error 
+                                p=error

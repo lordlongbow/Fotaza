@@ -1,0 +1,59 @@
+extends ../layout
+
+block content
+    include ../navbar.pug
+    .content 
+        h1(style="text-align: center; margin-top: 25px;") Editar Publicacion
+
+    .row 
+        .col-sm-4(style="width: 30er; margin: auto; padding: 15px; text: center;")
+            if(usuariologueado.id == publicacionObtenida.usuario.id)
+                .formulario
+                    form(action=`/publicacion/editar/${publicacionObtenida.id_publicacion}` method="post" enctype="multipart/form-data")
+                        .mb-3 
+                            label.form-label(for="titulo") Titulo 
+                            input(type="text" name="titulo" id="titulo" class="form-control" value=publicacionObtenida.titulo required)  
+                        .mb-3 
+                            label.form-label(for="categoria") Categoria  
+                            select(name="categoria" id="categoria" class="form-control" required) 
+                                each categoria in categorias
+                                    if categoria.id_categoria === publicacionObtenida.id_categoria
+                                        option(value=categoria.id_categoria selected) #{categoria.descripcion}
+                                    else
+                                        option(value=categoria.id_categoria) #{categoria.descripcion}
+                        .mb-3
+                            label.form-label(for="derechos") Derechos
+                            select(name="derechos" id="derechos" class="form-control" required)
+                                each derecho in derechos
+                                    if derecho.id_derechos === publicacionObtenida.id_derechos
+                                        option(value=derecho.id_derechos selected) #{derecho.descripcion}
+                                    else
+                                        option(value=derecho.id_derechos) #{derecho.descripcion}
+                        .mb-3
+                            label.form-label(for="estado") Estado
+                            .form-check
+                                input(type="radio" name="estado" id="publico" class="form-check-input" value="0" required)
+                                label.form-check-label(for="publico") Público
+                            .form-check
+                                input(type="radio" name="estado" id="privado" class="form-check-input" value="1" required)
+                                label.form-check-label(for="privado") Privado
+                                if publicacionObtenida.estado === 0
+                                    script.
+                                        document.getElementById("publico").checked = true;
+                                else
+                                    script.
+                                        document.getElementById("privado").checked = true;
+                        .mb-3 
+                            label.form-label(for="foto") Foto  
+                            if publicacionObtenida.imagen
+                                img(src=publicacionObtenida.imagen, alt="Imagen actual", style= "width: 300px; height: 200px;")
+                                input(type="file" name="foto" id="foto" class="form-control")
+                        .mb-3
+                            button(type="submit" class="btn btn-primary") Publicar 
+                            a(href="/" class="btn btn-danger") Volver
+                        #error 
+                        if error 
+                            p=error
+            else
+                p Usted no tiene permisos para editar una publicacion que no es de su pertenencia
+                a(href="/index" class="btn btn-danger") Volver

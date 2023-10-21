@@ -1,0 +1,30 @@
+extends layout 
+
+block content 
+  if(usuariologueado)
+    nav.navbar.navbar-expand-lg.navbar-light.bg-light  
+      .container(class="contenedor-navbar")
+        div 
+          img(src="/images/fotaza-logo.jpg", alt="Logo de Fotaza", style="width: 50px; height: auto; display: block; margin: 0 auto;")   
+        div
+          ul.navbar-nav.ms-auto(class="interfaz-navbar")
+            li.nav-item
+              img(src=`${usuariologueado.fotoRuta}`, alt="Imagen de Usuario")
+            li.nav-item
+              p= usuariologueado.username
+            li.nav-item(id="buscador") 
+                input#buscador-input( type="search", name="")
+                button(class="fas fa-search", onclick="buscador()")
+  else 
+    nav.navbar.navbar-expand-lg.navbar-light.bg-light
+      .container(class="contenedor-navbar")
+        div 
+          img(src="/images/fotaza-logo.jpg", alt="Logo de Fotaza", style="width: 50px; height: autopx; display: block; margin: 0 auto;")   
+        div
+          ul.navbar-nav.ms-auto(class="interfaz-navbar")
+            li.nav-item 
+              a.nav-link(href='/login/') 
+                i(class="fas fa-home")   Iniciar Sesion
+            li.nav-item
+              a.nav-link(href='/login/registro') 
+                i(class="fas fa-user")  Registro

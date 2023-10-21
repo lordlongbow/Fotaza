@@ -1,0 +1,127 @@
+extends layout
+
+block content
+  include navbar
+  include asideNavbar
+
+  include scrips 
+  if(usuariologueado)
+    h1= title
+    div(id="contenedor_principal")
+      div(id="Galeria-busqueda")
+      #nuevo(style="display: none;")
+
+      div(id="best-sellers")
+        h2(style="text-align: center; margin-top: 25px;") Mejor Puntuadas
+        .row
+          each publicacion in publicaciones
+            if(publicacion.promedio > 4)
+              .content(id="contenedor_best_sellers" class="container" onclick=`mostraImagenesLogueado(${publicacion.id_publicacion})`)  
+                .col-md-8
+                  p.titulo #{publicacion.titulo}
+                  img(src=`${publicacion.miniatura}`, class="miniatura", n=`${publicacion.id_publicacion}`)
+                  .col-md-4(style="text-align: center;")
+                    i.fas.fa-star(style= "color:gold; font-size: 20px;")
+                  .col-md-6(style="margin-top: 10px;")
+                    h3(id="promedio_miniatura") #{publicacion.promedio}
+
+     
+      .row
+        h3(style="text-align: center; margin-top: 25px;") Galeria
+        div(id="galeria")
+          each publicacion in publicaciones
+            .content(id="contenedor_carta" class="container" onclick=`mostraImagenesLogueado(${publicacion.id_publicacion})`)
+              .col-md-8
+                img(src=`${publicacion.miniatura}`, class="miniatura", n=`${publicacion.id_publicacion}`)
+                p.titulo #{publicacion.titulo}
+                div.miniatura_valoracion
+                  if(publicacion.promedio > 0)
+                    .col-md-4(style="text-align: center;")
+                      i.fas.fa-star(style= "color:gold; font-size: 20px;")
+                    .col-md-6(style="margin-top: 10px;")
+                      h3(id="promedio_miniatura") #{publicacion.promedio}
+                  else
+                    .col-md-4
+                      i.fas.fa-star(style= "color:gold; ")
+                    .col-md-6
+                      p(class="texto_promedio") #{publicacion.promedio}
+      #paginacion
+              button#prev-page Anterior
+                
+              button#next-page Siguiente
+
+      div(id="contenedor-modal")       
+        i(id="cerrar" class="fas fa-times-circle") 
+        .row
+          .col-md-8
+            div(class="primera-columna-primera-fila") 
+              input(type="hidden" id="n" )
+              img(id="img-usuario" class="rounded-circle") 
+              p(value="usuario" id="username")
+            .row  
+              img(id="imagen-modal" class="img-modal")
+          .col-md-4 
+            div(class="segunda-columna-primera-fila") 
+              //info de la publicacion
+              p(id="titulo-publicacion")
+              p(id="tamaño-publicacion")
+              p(id="fecha-publicacion")
+              p(id="derechos-publicacion")
+              p(id="categoria-publicacion")
+              p(id="estado-publicacion")
+            .row
+            div(id="valoracion")
+              //valoraciones
+              p(id="valoraciones")
+              div(id="estrellas")
+                input(type="radio" name="estrella1" class="estrella")
+                label(for="estrella1" class="fas fa-star" onclick="valorar(1)") 
+                input(type="radio" name="estrella2" class="estrella") 
+                label(for="estrella2" class="fas fa-star" onclick="valorar(2)")
+                input(type="radio" name="estrella3" class="estrella")
+                label(for="estrella3" class="fas fa-star" onclick="valorar(3)") 
+                input(type="radio" name="estrella4" class="estrella")
+                label(for="estrella4" class="fas fa-star" onclick="valorar(4)")
+                input(type="radio" name="estrella5" class="estrella")
+                label(for="estrella5" class="fas fa-star" onclick="valorar(5)")
+              div( id="mensaje-exito" class="mensaje-exito") Solicitud realizada con exito!
+        .row 
+          .col-md-12(id="comentarios")
+            div(id="acordion_comentario")
+              div(id="acordion_comentario_header")
+                p(style="text-align: center;") Comentarios
+                p(id="abrir" onclick="abrirComentarios()" class="fas fa-plus") 
+                input(type="hidden" id="u", value=`${usuariologueado.id}`)
+              .row(id="acordion_comentario_content")
+                .row 
+                .col-md-12
+                  div(id ="contenedor-comentarios")
+                .col-md-12(id="comentario_nuevo")
+                  input(type="text" name="comentario" id="comentario")
+                  button(class="fas fa-paper-plane" id="comentar" onclick="comentar()")
+
+
+  else
+    h1= title
+    h2(style="text-align: center; margin-top: 25px;") Bienvenido
+    div(id="contenedor_principal") 
+      if(publicaciones.length > 0)
+        each publicacion in publicaciones
+          if publicacion.estado == 0
+            .content(id="contenedor_carta" class="container" onclick=`mostrarImagen(${publicacion.id_publicacion})`)
+              .row
+                img(src=`${publicacion.miniatura}`, class="miniatura") 
+              .row
+                .col-md-4
+                  i.fas.fa-star(style= "color:gold;")
+                .col-md-6
+                  p #{publicacion.promedio}
+      else 
+        h2(style="text-align: center; margin-top: 25px;") No hay publicaciones
+      div(id="contenedor-modal")       
+        span(id="cerrar") X
+        img(id="imagen-modal" class="img-modal")
+
+  script(src="/javascripts/scriptsPublicacion.js")
+
+

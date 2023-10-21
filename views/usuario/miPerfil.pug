@@ -1,0 +1,79 @@
+extends ../layout
+block content 
+    include ../asideNavbar.pug
+     head
+        link(rel="stylesheet", href="../public/stylesheet/styles.css") 
+    .content(style="margin-top: 100px;") 
+    .row
+        .col-md-6(style="margin: auto;") 
+            .card
+                .card-header
+                    h1(style="text-align: center;") Mi Perfil 
+                .card-body(style="text-align: center;")
+                    if(usuario.fotoRuta == null || usuario.fotoRuta == "")
+                        form(action="cambiarFotoPerfil" method="post" enctype="multipart/form-data") 
+                            label(for="fotoPerfil") Agregar Foto
+                            input(type="file" name="fotoPerfil" class="form-control")
+                            input(type="submit" value="Agregar Foto")
+
+                    else 
+                        img(src= `${usuario.fotoRuta}`, alt="Foto de Perfil" class="rounded-circle" style="width: 150px; height: 150px")
+
+                    p Username: #{usuario.username}
+                    p Email: #{usuario.email}
+                    p Intereses: #{usuario.intereses}
+                .card-footer(style=" text-align: center;") 
+                    .row
+                        .col-md-4 
+                            button(type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#cambiarFoto") Cambia Foto 
+                            div(class="modal fade" id="cambiarFoto" tabindex="-1" aria-labelledby="cambiarFoto" aria-hidden="true") 
+                                div(class="modal-dialog modal-dialog-centered") 
+                                    div(class="modal-content")
+                                        .modal-header
+                                            div(class="modal-title" id="cambiarFotoLabel") Actualizar Foto
+                                            button(type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close")
+                                        .modal-body 
+                                            if usuario.fotoRuta != null
+                                                form(action="cambiarFotoPerfil" method="post" enctype="multipart/form-data")
+                                                    input(type="file" name="fotoPerfil" class="form-control")
+                                                    input(type="submit" value="Actualizar Foto" class="btn btn-primary")                                               
+                        .col.md-4 
+                            button(type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#cambiarContrasena") Cambia Contraseña
+                            div(class="modal fade" id="cambiarContrasena" tabindex="-1" aria-labelledby="cambiarContrasena" aria-hidden="true")
+                                div(class="modal-dialog modal-dialog-centered")
+                                    div(class="modal-content")
+                                        .modal-header 
+                                            div(class="modal-title" id="cambiarContrasenaLabel") Actualizar Contraseña
+                                            button(type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close")
+                                        .modal-body
+
+                                            form(action=`cambiarContrasena/${usuario.id}` method="post" enctype="multipart/form-data")
+                                                .mb-3
+                                                    label(for="contrasenaActual") Contraseña Actual
+                                                    input(type="password" name="contrasenaActual", class="form-control")
+                                                .mb-3    
+                                                    label(for="nuevaContrasena") Nueva Contraseña
+                                                    input(type="password" name="nuevaContrasena", class="form-control")
+                                                .mb-3    
+                                                    label(for="nuevaContrasena2") Repetir Nueva Contraseña
+                                                    input(type="password" name="nuevaContrasena2", class="form-control")
+                                                input(type="submit" value="Actualizar Contraseña" class="btn btn-primary") 
+                        .col-md-4
+                          button(type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editarPerfil") Editar Perfil
+                          div(class="modal fade" id="editarPerfil" tabindex="-1" aria-labelledby="editarPerfil" aria-hidden="true")
+                                .modal-dialog.modal-dialog-centered
+                                    .modal-content
+                                        .modal-header
+                                            .modal-title  Editar Perfil
+                                            button(type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close")
+                                        .modal-body
+                                            form(action=`editarPerfil/${usuario.id}` method="post" enctype="multipart/form-data")
+                                                .md-3
+                                                    label(for="username") Username 
+                                                    input(type="text", name="username", class="form-control")
+                                                .md-3 
+                                                    label(for="intereses") Intereses
+
+                                                input(type="submit" value="Guardar Cambios" class="btn btn-primary")
+                                        .modal-footer
+    include ../scrips.pug

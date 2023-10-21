@@ -1,0 +1,34 @@
+extends layout 
+block content 
+    include navbar 
+    if(usuariologueado)
+        .content 
+            ul#lista-mensajes(style="list-style-type: none; padding: 0; margin-top: 20px; text-align: left;")
+    
+        .mensaje(style="text-align: center; position: fixed; bottom: 0; left: 0; width: 100%; padding: 15px;")
+            form(action="/publicacion/chat" method="post" class="form-horizontal")
+                .input-group
+                    input(type="hidden" name="id_publicacion" value="${publicacionObtenida.id_publicacion}")
+                    input(type="hidden" name="id_usuario" value="${publicacionObtenida.id_usuario}")
+
+                    input(type="text" name="mensaje" class="form-control")
+                    input(type="submit" value="Enviar" class="btn btn-primary")
+
+    script(src="/socket.io/socket.io.js")
+        script.
+            const socket = io();
+            console.log(data);
+            socket.on('mensaje', (data) => {
+                const listaMensajes = document.getElementById('lista-mensajes');
+                const nuevoMensaje = document.createElement('li');
+                nuevoMensaje.textContent = data;
+                listaMensajes.appendChild(nuevoMensaje);
+            });
+
+            document.querySelector('form').addEventListener('submit', (event) => {
+                event.preventDefault();
+                const mensaje = document.getElementById('mensaje').value;
+                socket.emit('mensaje', mensaje); 
+                document.getElementById('mensaje').value = '';
+            });
+
